@@ -1,0 +1,98 @@
+{% extends 'pf/base.html' %}
+
+{% load static %}
+{% block title%}ABOUT ME{% endblock title%}
+{% block aboutmeactive %} active {% endblock aboutmeactive %}
+{% block content %}
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3">
+            <div class="card card-body h-100  border-info" id="profile-wrapper">
+                <img id="profile-pic" src="{% static 'pf/images/me.jpg' %}">
+                <hr>
+                <h4>Hi I'm Nishant!</h4>
+                <p>I love coding, doing research and collaborating</p>
+            </div>
+        </div>
+
+        <div class="col-md-9">
+            <div class="card card-body h-100  border-info">
+                <h4>My First Job as a Data science and machine learning engineer</h4>
+                <hr>
+                <p>Where I Rapidly co-develop word embedding based model for OCR-based
+                    Natural Language Processing document classification.</p>
+
+                <p>Despite high variance in training data, achieved outstanding model by
+                    combining computer vision and semantic NLP approaches (OpenCV,
+                    BERT, ELMo, GloVe, Word2Vec, Tensorflow 2.0)</p>
+
+
+                <ul class="social-links">
+                    <li><a href="https://www.facebook.com/nishant.shah.775/"><img class="social" src="{% static 'pf/images/facebook.png' %}" ></a></li>
+                    <li><a href="https://www.linkedin.com/in/shah-0806/"><img class="social" src="{% static 'pf/images/linkedin.png' %}"></a></li>
+                    <li><a href="https://twitter.com/nitz8690"><img class="social" src="{% static 'pf/images/twitter.png' %}"></a></li>
+                    <li><a href="https://github.com/Nitz8690"><img class="social" src="{% static 'pf/images/git.png' %}"></a></li>
+<!--                    <li><a href="https://github.com/Nitz8690"><img class="social" src="{% static 'pf/images/youtube.png' %}"></a></li>-->
+                </ul>
+
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-body h-100">
+                <h5>My Thesis Work</h5>
+                <hr>
+                <p><h6>Raccoon Detection in Real Time using Raspberry Pi</h6></p>
+                <p><strong> --> </strong> Developed highly accurate Embedded Machine Learning model for
+                    Raspberry Pi 4 processors to make it cost and power efficient.</p>
+                <p><strong> --> </strong> Challenges: Obtain Accuracy, Improve Frames Per Second,
+                    Practical implications of the developed model
+                </p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card card-body h-100">
+                <h5>What I Know</h5>
+                <hr>
+                <p>Python, Tensorflow, PyTorch, AWS, Docker, Django, flask, HTML/CSS, JavaScript/Jquery, React,
+                    Postgres, AWS and APIs such as google maps,
+                    JavaScript charts and a whole bunch more I can’t possibly mention in one or two sentence! ;)</p>
+                <p><strong>PS: Working on Machine Learning, Deep learning and Mongo DB.</strong></p>
+            </div>
+        </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="card card-body h-100">
+                <h5>How I Learn</h5>
+                <hr>
+                <p>Reverse Engineer & Build Ugly Prototypes First.</p>
+
+                <p>I can learn just about anything by having a final product to tear apart piece by piece. I break the
+                    code where I need to figure out why things work the way they do. Documentation is just a
+                    reference.</p>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card card-body h-100">
+                <h5>My Short Term Goals</h5>
+                <hr>
+                <p>After sucessfully completed my masters in Information Technology now, I'm ready to deep dive into
+                    Artificial Inteligece Field. Also, I am exited to learn some new latest technology in this field.
+                    I'll
+                    collaborating and sharing my experience with others on my github.</p>
+                <p>Aside from building small projects I would love to enter a position where I can be part of a bigger
+                    team & learn from others with more experience than myself.</p>
+
+            </div>
+        </div>
+    </div>
+    <br>
+</div>
+{% endblock content %}

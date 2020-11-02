@@ -1,0 +1,52 @@
+{% extends 'pf/base.html' %}
+
+{% load static %}
+{% block title%}CONTACT ME{% endblock title%}
+{% block contactmeactive %} active {% endblock contactmeactive %}
+{% block content %}
+
+<div class="contact-body">
+    <div class="contact-grid">
+        <!--        <div class="wrapper">-->
+        <div class="col-6" style="width: 40%; float:left"><br>
+            <h2>Nishant Shah</h2><br>
+            <img alt="avatar"
+                 id="profile-pic2"
+                 src="https://cdn2.iconfinder.com/data/icons/avatar-2/512/Fred_man-512.png"/><br><br>
+            <p style="width: '60%', margin: '10%', paddingTop: '1em'">Highly motivated Machine learning engineer with
+                hands on experience & knowledge in deep learning, computer vision and NLP domain. Enjoying
+                research, design and deploying machine learning models to solve realworld problems. Good at data mining,
+                data analysis & visualization and web development.</p>
+        </div>
+        <br>
+        <div class="col-6" style="width: 60%; float:left"><h2>Contact Me</h2>
+            <hr>
+            <br>
+            <ul>
+                <li><img class="soc mr-5 pl-0 ml-0" src="{% static 'pf/images/call.png' %}"></li>
+                <i aria-hidden="true" className="fa fa-fax mt-2"/>
+                +49 176-2296-0242
+                <br><br>
+                <li><img class="soc mr-2 pl-0 ml-4" src="{% static 'pf/images/linkedin2.png' %}"></li>
+                <i aria-hidden="true" className="fa fa-fax mt-2"/>
+                <h8>linkedin.com/in/shah-0806/</h8>
+                <br><br>
+                <li><img class="soc mr-5 pl-0 ml-3" src="{% static 'pf/images/skype.png' %}" style="text-align:left">
+                </li>
+                <i aria-hidden="true" className="fa fa-fax mt-2"/>
+                live:nishant.shah0806
+                <br><br>
+                <li><img class="soc mr-2 pl-5 ml-0" src="{% static 'pf/images/github.png' %}"></li>
+                <i aria-hidden="true" className="fa fa-envelope"/>
+                https://github.com/Nitz8690
+                <br><br>
+                <li><img class="soc mr-0 pl-0 ml-5" src="{% static 'pf/images/gmail.png' %}"></li>
+                <i aria-hidden="true" className="fa fa-envelope"/>
+                nishant_shah88@yahoo.com
+            </ul>
+            <br>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

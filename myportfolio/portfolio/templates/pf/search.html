@@ -1,0 +1,59 @@
+{% extends 'pf/base.html' %}
+
+{% load static %}
+{% block title%}SEARCH_RESULT{% endblock title%}
+{% block blogactive %} active {% endblock blogactive %}
+{% block content %}
+<!-- {% for projects in allProjs %}-->
+<!--{{projects.category}}-->
+<!--{% endfor %}-->
+<div class="container my-3">
+    <h2>Search results:</h2>
+    {% if allProjs|length < 1 %}
+    <p>No search results</p>
+
+    Your search query: <b>{{query}} </b> did not match any documents. <br>
+    Suggestions:
+    <ul>
+        <li>Make sure that all words are spelled correctly.</li>
+        <li>Try different keywords.</li>
+        <li>Try more general keywords.</li>
+        <li>Try fewer keywords.</li>
+    </ul>
+    {% endif %}
+    {% for projects in allProjs %}
+    <!--  { for projects in allProjs %}-->
+
+
+    <div class="row no-gutters border rounded overflow-hidden flex-md-row my-4 shadow-sm h-md-250 position-relative"
+         style="background-color : White ">
+        <div class="col p-4 d-flex flex-column position-static">
+            <strong class="d-inline-block mb-2 text-primary">Article by {{projects.category}}</strong>
+            <h3 class="mb-0">{{projects.proj_name}}</h3>
+            <div class="mb-1 text-muted">{{projects.pub_date}}</div>
+            <p class="card-text mb-auto">{{projects.proj_desc| truncatechars:500 }}</p>
+            <div class="my-2">
+                <a class="btn btn-primary" href="{{projects.proj_link1}}" role="button">Continue reading</a>
+            </div>
+        </div>
+        <div class="col-auto d-none d-lg-block">
+
+        </div>
+    </div>
+
+    <!--            <div class="col-xs-3 col-sm-3 col-md-3">-->
+    <!--          <div class="card" style="width: 18rem;">-->
+    <!--            <img src='/media/{{i.proj_image}}' class="card-img-top" alt="...">-->
+    <!--            <div class="card-body">-->
+    <!--              <h5 class="card-title">{{i.proj_name|slice:"0:20"}}..</h5>-->
+    <!--              <p class="card-text">{{i.proj_desc|slice:"0:60"}}..</p><br>-->
+    <!--              <a id="pr{{i.id}}" class="btn btn-primary cart" style="margin-left:5px;"  href="{{i.proj_link1}}">Code Link</a>-->
+    <!--               <a class="btn btn-primary cart" style="margin-left:30px;" href="{{i.proj_link2}}" >Demo Link</a>-->
+    <!--            </div>-->
+    <!--          </div>-->
+    <!--        </div>-->
+
+
+    {% endfor %}
+</div>
+{% endblock content %}

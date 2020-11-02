@@ -1,0 +1,151 @@
+{% extends 'pf/base.html' %}
+
+{% load static %}
+{% block title%}PROJECTS{% endblock title%}
+{% block projectsactive %} active {% endblock projectsactive %}
+{% block content %}
+<style>
+          .col-md-3
+          {
+            display: inline-block;
+            margin-left: 25px;
+            height: 365px;
+            width: 270px;
+          }
+
+          .carousel-indicators .active {
+          background-color: blue;
+            }
+
+          .col-md-3 img{
+            width: 260px;
+            max-height: 155px;
+            margin: auto;
+             margin-left: 13px;
+             margin-right: 13px;
+            margin-top: 4%;
+            word-break: break-all;
+            word-break: break-all;
+<!--            width: %;-->
+<!--            height: 50%;-->
+<!--            margin: auto;-->
+<!--            margin-top: 11%;-->
+          }
+
+          body .carousel-indicator li{
+          background-color: blue;
+          }
+
+          body .carousel-indicators{
+          bottom: 0;
+          }
+
+          body .carousel-control-prev-icon,
+          body .carousel-control-next-icon{
+          background-color: blue;
+          }
+
+          .carousel-control-prev,
+          .carousel-control-next{
+          top: auto;
+          bottom: auto;
+          padding-top: 155px;
+          }
+           body .no-padding{
+           padding-left: 0,
+           padding-right: 0;
+           }
+
+
+</style>
+<div class="container">
+
+    <!--Slideshow starts here -->
+    {% for projects, range, nSlides in allProjs %}
+    <h3 class="my-4"><strong>{{projects.0.category}}</strong></h3>
+    <div class="row">
+        <div class="col carousel slide my-3" data-ride="carousel" id="demo{{forloop.counter}}">
+            <ul class="carousel-indicators">
+                <li class="active" data-slide-to="0" data-target="#demo{{forloop.counter}}"></li>
+
+                {% for i in range %}
+                <li data-slide-to="{{i}}" data-target="#demo{{forloop.parentloop.counter}}"></li>
+                {% endfor %}
+            </ul>
+
+
+            <div class="container carousel-inner no-padding">
+
+                <div class="carousel-item active">
+
+
+                    {% for i in projects %}
+                    <div class="col-xs-3 col-sm-3 col-md-3">
+                        <div class="card" style="width: 18rem;">
+                            <img alt="..." class="card-img-top" src='/media/{{i.proj_image}}'>
+                            <div class="card-body">
+                                <h5 class="card-title">{{i.proj_name|slice:"0:20"}} ...</h5>
+                                <p class="card-text">{{i.proj_desc|slice:"0:60"}} ...</p><br>
+                                <a class="btn btn-primary cart" href="{{i.proj_link1}}" id="pr{{i.id}}"
+                                   style="margin-left:5px;">Code Link</a>
+                                <a class="btn btn-primary cart" href="{{i.proj_link2}}" style="margin-left:30px;">Demo
+                                    Link</a>
+                            </div>
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last %}
+                </div>
+                <div class="carousel-item">
+                    {% endif %}
+
+                    {% endfor %}
+                </div>
+
+
+            </div>
+        </div>
+        <!-- left and right controls for the slide -->
+        <a class="carousel-control-prev" data-slide="prev" href="#demo{{forloop.counter}}">
+            <span class="carousel-control-prev-icon"></span>
+        </a>
+        <a class="carousel-control-next" data-slide="next" href="#demo{{forloop.counter}}">
+            <span class="carousel-control-next-icon"></span>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+{% endblock content %}
+
+{% block  js %}
+<script>
+console.log('working')
+
+if(localStorage.getItem('clk') == null){
+var clk={};
+}
+else{
+clk = JSON.parse(localStorage.getItem('clk'));
+}
+
+$('.clk').click(function(){
+console.log('maja hi aa gaya');
+var idstr = this.id.toString();
+console.log(idstr);
+
+if(clk[idstr]  != undefined){
+clk[idstr] = clk[idstr] + 1;
+}
+else{
+clk[idstr] = 1;
+}
+console.log(clk);
+localStorage.setItem('clk', JSON.stringify(clk));
+});
+
+
+
+
+</script>
+{% endblock js %}
+
+

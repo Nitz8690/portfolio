@@ -1,0 +1,37 @@
+{% extends 'pf/base.html' %}
+
+{% load static %}
+{% block title%}HOME{% endblock title%}
+{% block homeactive %} active {% endblock homeactive %}
+{% block content %}
+
+<br>
+<br>
+<div class="banner">
+
+
+    <img alt="..." class="avtar-img" id="profile-pic1"
+         src="https://www.shareicon.net/data/2015/09/24/106427_man_512x512.png"/></div>
+<br>
+
+<div class="banner-text"><br>
+    <!--    <h1>Full Stack Web Developer</h1>-->
+    <h1>Machine Learning Engineer</h1>
+
+    <hr/>
+    <!--    <p>HTML/CSS | Bootstrap | JavaScript | React | React Native | NodeJS | Express | MongoDB</p>-->
+    <p>TensorFlow | PyTorch | Keras | AWS | Apache Spark | Docker | Jenkins | Django | MongoDB </p>
+
+    <div class="container-fluid" style="background:white;  display:inline-block;">
+        <ul>
+                    <li><a href="https://www.facebook.com/nishant.shah.775/"><img class="social" src="{% static 'pf/images/facebook.png' %}" ></a></li>
+                    <li><a href="https://www.linkedin.com/in/shah-0806/"><img class="social" src="{% static 'pf/images/linkedin.png' %}"></a></li>
+                    <li><a href="https://twitter.com/nitz8690"><img class="social" src="{% static 'pf/images/twitter.png' %}"></a></li>
+                    <li><a href="https://github.com/Nitz8690"><img class="social" src="{% static 'pf/images/git.png' %}"></a></li>
+                    <li><a href="https://github.com/Nitz8690"><img class="social" src="{% static 'pf/images/youtube.png' %}"></a></li>
+        </ul>
+    </div>
+</div>
+
+
+{% endblock content%}

@@ -6,7 +6,9 @@ FrameWork: Django
 Tools : AWS(EC2,Auto Scaling,Load Balancing, Volume, Route S3), Jenkins 
 
 ** Note: It was deployed on AWS using Route 53 using auto scaling and Load balancing for Learning Purpose. 
+
 ** As AWS route 53 service is not included in free tier I deleted it from AWS.
+
 ** Rightnow, I am only using EC2 instance for ubuntu server to integrate it with Jenkins. 
 
 DB: SqLite3 (with some minore changes you can switch to any other DB such as MongoDB, cassandra etc..)

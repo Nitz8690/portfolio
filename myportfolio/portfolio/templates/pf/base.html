@@ -6,7 +6,8 @@
     <title>{% block title%} BASE {% endblock title%} </title>
     <!--            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">-->
     <!--    <meta name="theme-color" content="#000000">-->
-    <meta charset="UTF-8" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1 user-scalable=yes"
+    <meta charset="UTF-8"
+          content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1 user-scalable=yes"
           name="viewport"/>
     <link crossorigin="anonymous" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" rel="stylesheet">
@@ -14,7 +15,7 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Anton|Oxygen" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@master/devicon.min.css">
+    <link href="https://cdn.jsdelivr.net/gh/devicons/devicon@master/devicon.min.css" rel="stylesheet">
 
     <link href="{% static 'pf/css/base.css'%}" rel="stylesheet" type="text/css">
     <link href="{% static 'pf/vendor/font-awesome/css/font-awesome.min.css' %}" rel="stylesheet">
@@ -24,7 +25,8 @@
 
 <nav class="navbar navbar-expand-lg navbar-dark bg-light br-dark">
     <a class="navbar-brand" href="/home">Home<span class="sr-only">(current)</span></a>
-    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+    <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"
+            class="navbar-toggler"
             data-target="#navbarSupportedContent" data-toggle="collapse" type="button">
         <span class="navbar-toggler-icon"></span></button>
 
@@ -74,7 +76,8 @@
         {% if user.is_authenticated %}
         <ul class="navbar-nav mr-2">
             <li class="nav-item dropdown">
-                <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown" href="#"
+                <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                   href="#"
                    id="navbarDropdown" role="button">
                     Welcome {{request.user}}
                 </a>
@@ -122,7 +125,8 @@
                 <form action='/signup' method='post'>
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input class="form-control" id="username" name="username" placeholder="Choose a unique username (Lowercase & alphanumeric)"
+                        <input class="form-control" id="username" name="username"
+                               placeholder="Choose a unique username (Lowercase & alphanumeric)"
                                required type="text">
                     </div>
                     <div class="form-group">
@@ -178,13 +182,15 @@
                     {% csrf_token %}
                     <div class="form-group">
                         <label for="username">Username</label>
-                        <input class="form-control" id="loginusername" name="loginusername" placeholder="Choose a unique username"
+                        <input class="form-control" id="loginusername" name="loginusername"
+                               placeholder="Choose a unique username"
                                required type="text">
                     </div>
 
                     <div class="form-group">
                         <label for="pass">Password</label>
-                        <input class="form-control" id="loginpassword" name="loginpassword" placeholder="Enter your password"
+                        <input class="form-control" id="loginpassword" name="loginpassword"
+                               placeholder="Enter your password"
                                required type="password">
                     </div>
 

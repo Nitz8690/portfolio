@@ -23,23 +23,19 @@ def aboutme(request):
 
 
 def projects(request):
-    # projects=Project.objects.all()
-    # n=len(projects)
-    # print(n)
-    # nSlides = n//4 + ceil((n/4)-(n//4))
-    # context={'no. of slides':nSlides,'range':range(1, nSlides) ,'projects': projects}
-    # context={'project_name': proj_name}
-
-    allProjs = []
-    catprojs = Project.objects.values('category')
-    cats = {item['category'] for item in catprojs}
-    for cat in cats:
-        proj = Project.objects.filter(category=cat)
-        n = len(proj)
-        nSlides = n // 3 + ceil((n / 3) - (n // 3))
-        allProjs.append([proj, range(1, nSlides), nSlides])
-    context = {'allProjs': allProjs}
-    return render(request, 'pf/projects.html', context)
+    if request.user.is_authenticated:
+        allProjs = []
+        catprojs = Project.objects.values('category')
+        cats = {item['category'] for item in catprojs}
+        for cat in cats:
+            proj = Project.objects.filter(category=cat)
+            n = len(proj)
+            nSlides = n // 3 + ceil((n / 3) - (n // 3))
+            allProjs.append([proj, range(1, nSlides), nSlides])
+        context = {'allProjs': allProjs}
+        return render(request, 'pf/projects.html', context)
+    else:
+        return render(request, 'pf/home2.html')
 
 
 def contactme(request):
@@ -55,25 +51,24 @@ def documents(request):
 
 
 def search(request):
-    # query = request.GET['query']
-    # allProjs = Project.objects.all()
-    # allProjs = Project.objects.filter(title__icontains=query)
-    # context  = {'allProjs': allProjs}
-    # return render(request,'pf/search.html', context)
-    query = request.GET['query']
-    if len(query) > 78:
-        allProjs = Project.objects.none()
-    else:
-        allPostsTitle = Project.objects.filter(category__icontains=query)
-        allPostsContent = Project.objects.filter(proj_desc__icontains=query)
-        allPostsName = Project.objects.filter(proj_name__icontains=query)
-        allProjs = allPostsTitle.union(allPostsContent)
-        allProjs = allProjs.union(allPostsName)
+    if request.user.is_authenticated:
 
-    if allProjs.count() == 0:
-        messages.warning(request, "No search results found. Please refine your query")
-    context = {'allProjs': allProjs, 'query': query}
-    return render(request, 'pf/search.html', context)
+        query = request.GET['query']
+        if len(query) > 78:
+            allProjs = Project.objects.none()
+        else:
+            allPostsTitle = Project.objects.filter(category__icontains=query)
+            allPostsContent = Project.objects.filter(proj_desc__icontains=query)
+            allPostsName = Project.objects.filter(proj_name__icontains=query)
+            allProjs = allPostsTitle.union(allPostsContent)
+            allProjs = allProjs.union(allPostsName)
+
+        if allProjs.count() == 0:
+            messages.warning(request, "No search results found. Please refine your query")
+        context = {'allProjs': allProjs, 'query': query}
+        return render(request, 'pf/search.html', context)
+    else:
+        return render(request, 'pf/home2.html')
 
 
 def handleSignup(request):

@@ -83,7 +83,7 @@ def handleSignup(request):
 
         # Check for errorneous inputs
         # username should be under 10 characters
-        if len(username) > 4:
+        if len(username) > 10:
             messages.error(request, "Username must be under 10 characters")
             return redirect('home')
 
@@ -102,7 +102,7 @@ def handleSignup(request):
         myuser.first_name = fname
         myuser.last_name = lname
         myuser.save()
-        messages.success(request, "Your iCoder account has been successfully created")
+        messages.success(request, "Your account has been successfully created")
         return redirect('home')
     else:
         return HttpResponse('404 - Not Found')

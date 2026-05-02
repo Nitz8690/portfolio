@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, HttpResponse, redirect
+from django.db import IntegrityError
 
 from .models import Project
 
@@ -81,7 +82,7 @@ def handleSignup(request):
         pass1 = request.POST['pass1']
         pass2 = request.POST['pass2']
 
-        # Check for errorneous inputs
+        # Check for erroneous inputs
         # username should be under 10 characters
         if len(username) > 10:
             messages.error(request, "Username must be under 10 characters")
@@ -97,11 +98,21 @@ def handleSignup(request):
             messages.error(request, "Passwords do not match")
             return redirect('home')
 
+        # username uniqueness check
+        if User.objects.filter(username=username).exists():
+            messages.error(request, "Username already exists. Please choose a different username")
+            return redirect('home')
+
         # Create the user
-        myuser = User.objects.create_user(username, email, pass1)
-        myuser.first_name = fname
-        myuser.last_name = lname
-        myuser.save()
+        try:
+            myuser = User.objects.create_user(username, email, pass1)
+            myuser.first_name = fname
+            myuser.last_name = lname
+            myuser.save()
+        except IntegrityError:
+            messages.error(request, "Could not create user due to a database error. Please try a different username.")
+            return redirect('home')
+
         messages.success(request, "Your account has been successfully created")
         return redirect('home')
     else:

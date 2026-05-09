@@ -1,108 +1,626 @@
 {% extends 'pf/base.html' %}
-
 {% load static %}
-{% block title%}ABOUT ME{% endblock title%}
+{% block title %}ABOUT ME{% endblock title %}
 {% block aboutmeactive %} active {% endblock aboutmeactive %}
+
 {% block content %}
-<br>
-<div class="container">
-    <div class="row">
-        <div class="col-md-3">
-            <div class="card card-body h-100  border-info" id="profile-wrapper">
-                <img id="profile-pic" src="{% static 'pf/images/me.jpg' %}">
-                <hr>
-                <h4>Hi I'm Nishant!</h4>
-                <p>I love coding, doing research and collaborating</p>
-            </div>
-        </div>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;700&family=Clash+Display:wght@500;600;700&family=Cabinet+Grotesk:wght@400;500;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 
-        <div class="col-md-9">
-            <div class="card card-body h-100  border-info">
-                <h4>My first job as a Data Scientist / Cloud Engineer</h4>
-                <hr>
-                <p>Where I Rapidly co-develop word embedding based model for OCR-based
-                    Natural Language Processing document classification.</p>
+<style>
+/* ── TOKENS ─────────────────────────────────────────── */
+:root {
+  --gold:      #F5C842;
+  --mint:      #00E5A0;
+  --ice:       #B8F0E6;
+  --white:     #FFFFFF;
+  --w90:       rgba(255,255,255,0.90);
+  --w70:       rgba(255,255,255,0.70);
+  --w40:       rgba(255,255,255,0.40);
+  --w15:       rgba(255,255,255,0.15);
+  --w08:       rgba(255,255,255,0.08);
+  --dark:      rgba(0,0,0,0.35);
+  --glass:     rgba(255,255,255,0.07);
+  --glass-brd: rgba(255,255,255,0.16);
+  --shadow:    0 8px 40px rgba(0,0,0,0.22);
+  --font-display: 'Cabinet Grotesk', sans-serif;
+  --font-mono:    'JetBrains Mono', monospace;
+}
 
-                <p>Despite high variance in training data, achieved outstanding model by
-                    combining computer vision and semantic NLP approaches (OpenCV,
-                    BERT, ELMo, GloVe, Word2Vec, Tensorflow 2.0)</p>
+/* ── BASE ───────────────────────────────────────────── */
+.ab-page { padding: 2.5rem 2rem 4rem; max-width: 1400px; margin: 0 auto; }
+.ab-page * { box-sizing: border-box; font-family: var(--font-display); }
+.mono { font-family: var(--font-mono) !important; }
 
+/* ── ANIMATIONS ─────────────────────────────────────── */
+@keyframes fadeUp   { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+@keyframes fadeIn   { from { opacity:0; } to { opacity:1; } }
+@keyframes pulse-dot{ 0%,100%{ opacity:1; } 50%{ opacity:0.2; } }
+@keyframes scan     { 0%{ top:0; } 100%{ top:100%; } }
+@keyframes float    { 0%,100%{ transform:translateY(0px); } 50%{ transform:translateY(-6px); } }
+@keyframes bar-grow { from{ width:0; } to{ width:var(--pct); } }
+@keyframes counter  { from{ opacity:0; transform:scale(0.8); } to{ opacity:1; transform:scale(1); } }
 
-                <ul class="social-links">
-                    <li><a href="https://www.facebook.com/nishant.shah.775/"><img class="social"
-                                                                                  src="{% static 'pf/images/facebook.png' %}"></a>
-                    </li>
-                    <li><a href="https://www.linkedin.com/in/shah-0806/"><img class="social"
-                                                                              src="{% static 'pf/images/linkedin.png' %}"></a>
-                    </li>
-                    <li><a href="https://twitter.com/nitz8690"><img class="social"
-                                                                    src="{% static 'pf/images/twitter.png' %}"></a></li>
-                    <li><a href="https://github.com/Nitz8690"><img class="social"
-                                                                   src="{% static 'pf/images/git.png' %}"></a></li>
-                    <!--                    <li><a href="https://github.com/Nitz8690"><img class="social" src="{% static 'pf/images/youtube.png' %}"></a></li>-->
-                </ul>
+.reveal { opacity:0; animation: fadeUp 0.65s cubic-bezier(.22,.68,0,1.2) forwards; }
+.reveal-1{ animation-delay:.08s; } .reveal-2{ animation-delay:.18s; }
+.reveal-3{ animation-delay:.28s; } .reveal-4{ animation-delay:.38s; }
+.reveal-5{ animation-delay:.48s; } .reveal-6{ animation-delay:.58s; }
 
-            </div>
-        </div>
+/* ── GLASS CARD ─────────────────────────────────────── */
+.gc {
+  background: var(--glass);
+  border: 1px solid var(--glass-brd);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  color: var(--white);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.gc:hover { transform: translateY(-3px); box-shadow: 0 16px 48px rgba(0,0,0,0.28); }
+
+/* ── HERO ROW ────────────────────────────────────────── */
+.hero-grid {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+@media(max-width:900px){ .hero-grid{ grid-template-columns:1fr; } }
+
+/* ── PROFILE CARD ────────────────────────────────────── */
+.profile-card { padding: 2rem 1.5rem; text-align: center; position: relative; }
+.profile-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg, var(--mint), var(--gold));
+}
+.avatar-wrap { position: relative; display: inline-block; margin-bottom: 1.2rem; animation: float 4s ease-in-out infinite; }
+.avatar-wrap img {
+  width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
+  border: 3px solid var(--gold);
+  box-shadow: 0 0 0 6px rgba(245,200,66,0.15), 0 8px 24px rgba(0,0,0,0.3);
+}
+.avatar-status {
+  position: absolute; bottom: 4px; right: 4px;
+  width: 16px; height: 16px; border-radius: 50%;
+  background: var(--mint); border: 2px solid rgba(255,255,255,0.3);
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+.profile-name {
+  font-size: 1.35rem; font-weight: 800; color: var(--white);
+  letter-spacing: -0.02em; margin-bottom: 0.2rem;
+}
+.profile-title {
+  font-family: var(--font-mono); font-size: 0.72rem;
+  color: var(--mint); margin-bottom: 0.3rem; letter-spacing: 0.04em;
+}
+.profile-loc { font-size: 0.8rem; color: var(--w70); margin-bottom: 1.2rem; }
+.profile-loc i { color: var(--gold); margin-right: 4px; }
+
+.divider { border: none; border-top: 1px solid var(--glass-brd); margin: 1rem 0; }
+
+.stat-mini-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1.2rem; }
+.stat-mini {
+  background: var(--w08); border: 1px solid var(--glass-brd);
+  border-radius: 10px; padding: 0.6rem 0.4rem; text-align: center;
+}
+.stat-mini-num { font-size: 1.1rem; font-weight: 800; color: var(--gold); font-family: var(--font-mono); }
+.stat-mini-lbl { font-size: 0.65rem; color: var(--w70); margin-top: 1px; text-transform: uppercase; letter-spacing: 0.04em; }
+
+.social-row { display: flex; justify-content: center; gap: 10px; }
+.social-btn {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--w08); border: 1px solid var(--glass-brd);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--w70); font-size: 0.9rem; text-decoration: none;
+  transition: all 0.25s;
+}
+.social-btn:hover { background: var(--gold); color: #111; border-color: var(--gold); transform: translateY(-2px); }
+
+/* ── CURRENT ROLE CARD ──────────────────────────────── */
+.role-card { padding: 2rem 2rem 1.5rem; position: relative; }
+.role-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:3px;
+  background: linear-gradient(90deg, var(--gold), var(--mint));
+}
+
+.role-header { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem; }
+.role-badge-live {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(0,229,160,0.15); border: 1px solid rgba(0,229,160,0.35);
+  border-radius: 20px; padding: 3px 12px; font-size: 0.72rem;
+  font-family: var(--font-mono); color: var(--mint); font-weight: 500;
+}
+.live-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--mint); animation: pulse-dot 1.5s infinite; }
+.role-period { font-family: var(--font-mono); font-size: 0.72rem; color: var(--w70); }
+
+.role-title {
+  font-size: clamp(1.2rem, 2.5vw, 1.7rem); font-weight: 800;
+  color: var(--white); letter-spacing: -0.02em; margin-bottom: 0.2rem; line-height: 1.2;
+}
+.role-company { font-size: 0.88rem; font-weight: 600; color: var(--gold); margin-bottom: 0.8rem; }
+.role-company i { margin-right: 5px; }
+.role-desc { font-size: 0.9rem; color: var(--w70); line-height: 1.65; margin-bottom: 1rem; }
+
+/* Stat strip */
+.stat-strip { display: grid; grid-template-columns: repeat(3,1fr); gap: 10px; margin-bottom: 1.2rem; }
+.stat-block {
+  background: var(--w08); border: 1px solid var(--glass-brd);
+  border-radius: 12px; padding: 0.9rem 0.6rem; text-align: center;
+  position: relative; overflow: hidden;
+}
+.stat-block::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+  background: linear-gradient(90deg, var(--mint), var(--gold));
+}
+.stat-num { font-family: var(--font-mono); font-size: 1.5rem; font-weight: 700; color: var(--gold); animation: counter .6s ease forwards; }
+.stat-lbl { font-size: 0.7rem; color: var(--w70); text-transform: uppercase; letter-spacing: 0.05em; margin-top: 3px; }
+
+/* Achievements */
+.sec-label {
+  font-family: var(--font-mono); font-size: 0.68rem; font-weight: 500;
+  color: var(--mint); text-transform: uppercase; letter-spacing: 0.1em;
+  margin-bottom: 0.7rem; display: flex; align-items: center; gap: 8px;
+}
+.sec-label::after { content:''; flex:1; height:1px; background: var(--glass-brd); }
+
+.ach-list { display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; margin-bottom: 1rem; }
+@media(max-width:700px){ .ach-list{ grid-template-columns:1fr; } }
+.ach-item {
+  background: var(--w08); border: 1px solid var(--glass-brd);
+  border-radius: 10px; padding: 0.6rem 0.75rem;
+  display: flex; align-items: flex-start; gap: 8px; font-size: 0.83rem; color: var(--w90);
+  transition: background 0.2s;
+}
+.ach-item:hover { background: rgba(255,255,255,0.12); }
+.ach-emoji { font-size: 1rem; min-width: 20px; }
+
+/* Tags */
+.tag-row { display: flex; flex-wrap: wrap; gap: 6px; }
+.tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  border-radius: 8px; padding: 4px 10px;
+  font-family: var(--font-mono); font-size: 0.7rem; font-weight: 500;
+  border: 1px solid; transition: all 0.2s; cursor: default;
+}
+.tag:hover { transform: translateY(-1px); }
+.tg { background: rgba(245,200,66,0.10); border-color: rgba(245,200,66,0.35); color: var(--gold); }
+.tm { background: rgba(0,229,160,0.10); border-color: rgba(0,229,160,0.30); color: var(--mint); }
+.tw { background: var(--w08); border-color: var(--glass-brd); color: var(--w90); }
+
+/* ── MIDDLE GRID ─────────────────────────────────────── */
+.mid-grid {
+  display: grid;
+  grid-template-columns: 1fr 340px;
+  gap: 1.25rem;
+  margin-bottom: 1.25rem;
+}
+@media(max-width:900px){ .mid-grid{ grid-template-columns:1fr; } }
+
+/* ── TIMELINE ────────────────────────────────────────── */
+.timeline-card { padding: 1.8rem 2rem; }
+.tl-items { position: relative; padding-left: 1.6rem; }
+.tl-items::before {
+  content:''; position:absolute; left:5px; top:8px; bottom:8px; width:2px;
+  background: linear-gradient(180deg, var(--gold), var(--mint), rgba(255,255,255,0.1));
+  border-radius: 2px;
+}
+.tl-item { position: relative; margin-bottom: 1.6rem; }
+.tl-item::before {
+  content:''; position:absolute; left:-1.35rem; top:6px;
+  width: 12px; height: 12px; border-radius: 50%;
+  border: 2px solid var(--mint);
+  background: var(--dark);
+  box-shadow: 0 0 0 3px rgba(0,229,160,0.2);
+}
+.tl-item.tl-devops::before { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(245,200,66,0.2); }
+.tl-item.tl-neutral::before { border-color: var(--w40); box-shadow: none; }
+
+.tl-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 4px; margin-bottom: 2px; }
+.tl-role { font-size: 0.95rem; font-weight: 700; color: var(--white); letter-spacing: -0.01em; }
+.tl-date { font-family: var(--font-mono); font-size: 0.68rem; color: var(--w40); white-space: nowrap; padding-top: 3px; }
+.tl-co   { font-size: 0.78rem; font-weight: 600; color: var(--mint); margin-bottom: 0.35rem; }
+.tl-item.tl-devops .tl-co { color: var(--gold); }
+.tl-item.tl-neutral .tl-co { color: var(--w70); }
+.tl-desc { font-size: 0.82rem; color: var(--w70); line-height: 1.55; margin-bottom: 0.4rem; }
+.tl-bullets { list-style: none; padding: 0; margin: 0 0 0.5rem; }
+.tl-bullets li { font-size: 0.8rem; color: var(--w70); padding: 0.15rem 0 0.15rem 1rem; position: relative; }
+.tl-bullets li::before { content:'›'; position:absolute; left:0; color: var(--mint); font-weight: 700; }
+.tl-item.tl-devops .tl-bullets li::before { color: var(--gold); }
+
+/* ── RIGHT COLUMN ────────────────────────────────────── */
+.right-col { display: flex; flex-direction: column; gap: 1.25rem; }
+
+/* Skill card */
+.skill-card { padding: 1.5rem 1.5rem; }
+.skill-group { margin-bottom: 1.2rem; }
+.skill-group-label { font-family: var(--font-mono); font-size: 0.65rem; color: var(--w40); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.6rem; }
+.sk-item { margin-bottom: 0.65rem; }
+.sk-top  { display: flex; justify-content: space-between; font-size: 0.8rem; color: var(--w90); margin-bottom: 4px; }
+.sk-pct  { font-family: var(--font-mono); font-size: 0.7rem; color: var(--mint); }
+.sk-bg   { background: rgba(255,255,255,0.10); border-radius: 6px; height: 5px; }
+.sk-bar  { height: 5px; border-radius: 6px; background: linear-gradient(90deg, var(--mint), var(--gold)); animation: bar-grow 1s ease forwards; }
+
+/* Terminal card */
+.terminal-card { padding: 0; overflow: hidden; }
+.terminal-header {
+  background: rgba(0,0,0,0.4); padding: 0.6rem 1rem;
+  display: flex; align-items: center; gap: 8px;
+  border-bottom: 1px solid var(--glass-brd);
+}
+.t-dot { width: 10px; height: 10px; border-radius: 50%; }
+.t-red { background: #FF5F57; } .t-yellow { background: #FFBD2E; } .t-green { background: #28CA41; }
+.terminal-filename { font-family: var(--font-mono); font-size: 0.7rem; color: var(--w70); margin-left: auto; }
+.terminal-body { padding: 1rem 1.2rem; font-family: var(--font-mono); font-size: 0.75rem; line-height: 1.8; }
+.t-comment { color: #5a7a6a; }
+.t-key     { color: var(--gold); }
+.t-val     { color: var(--mint); }
+.t-str     { color: #c3e88d; }
+.t-num     { color: #f78c6c; }
+.t-cursor  { display:inline-block; width:7px; height:13px; background:var(--mint); margin-left:2px; vertical-align:middle; animation: pulse-dot 1s step-end infinite; }
+
+/* How I learn / goals */
+.info-card { padding: 1.5rem; }
+.info-icon { font-size: 1.5rem; margin-bottom: 0.5rem; }
+.info-head { font-size: 0.95rem; font-weight: 800; color: var(--gold); margin-bottom: 0.5rem; letter-spacing: -0.01em; }
+.info-body { font-size: 0.83rem; color: var(--w70); line-height: 1.6; }
+
+/* ── BOTTOM GRID ─────────────────────────────────────── */
+.bot-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+@media(max-width:900px){ .bot-grid{ grid-template-columns:1fr; } }
+
+/* Tech chip cloud */
+.chip-cloud { padding: 1.5rem; }
+.chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--w08); border: 1px solid var(--glass-brd);
+  border-radius: 8px; padding: 5px 10px;
+  font-family: var(--font-mono); font-size: 0.7rem; color: var(--w90);
+  transition: all 0.2s; cursor: default;
+}
+.chip:hover { background: rgba(255,255,255,0.15); border-color: var(--gold); color: var(--gold); transform: translateY(-1px); }
+
+/* Education */
+.edu-card { padding: 1.5rem; }
+.edu-item { margin-bottom: 1rem; padding-bottom: 1rem; border-bottom: 1px solid var(--glass-brd); }
+.edu-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+.edu-school { font-size: 0.88rem; font-weight: 700; color: var(--white); }
+.edu-deg    { font-size: 0.78rem; color: var(--mint); margin: 2px 0; }
+.edu-detail { font-size: 0.74rem; color: var(--w40); font-family: var(--font-mono); }
+
+/* Certs */
+.cert-card-inner { padding: 1.5rem; }
+.cert-item { display: flex; gap: 10px; margin-bottom: 0.8rem; align-items: flex-start; }
+.cert-badge {
+  min-width: 32px; height: 32px; border-radius: 8px;
+  background: rgba(245,200,66,0.15); border: 1px solid rgba(245,200,66,0.3);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--gold); font-size: 0.85rem;
+}
+.cert-name { font-size: 0.8rem; font-weight: 600; color: var(--w90); line-height: 1.3; }
+.cert-meta { font-family: var(--font-mono); font-size: 0.66rem; color: var(--w40); margin-top: 2px; }
+.cert-link { font-size: 0.7rem; color: var(--mint); text-decoration: none; }
+.cert-link:hover { color: var(--gold); }
+</style>
+
+<div class="ab-page">
+
+  <!-- ══ HERO ROW ══ -->
+  <div class="hero-grid reveal reveal-1">
+
+    <!-- Profile -->
+    <div class="gc profile-card">
+      <div class="avatar-wrap">
+        <img src="{% static 'pf/images/me.jpg' %}" alt="Nishant Shah">
+        <div class="avatar-status" title="Open to opportunities"></div>
+      </div>
+      <div class="profile-name">Nishant Shah</div>
+      <div class="profile-title mono">$ Senior DevOps Engineer · ML Engineer</div>
+      <div class="profile-loc"><i class="fa-solid fa-location-dot"></i> Nuremberg, Germany</div>
+
+      <div class="stat-mini-grid">
+        <div class="stat-mini"><div class="stat-mini-num">6+</div><div class="stat-mini-lbl">Years Exp.</div></div>
+        <div class="stat-mini"><div class="stat-mini-num">5</div><div class="stat-mini-lbl">Apps Live</div></div>
+        <div class="stat-mini"><div class="stat-mini-num">50%</div><div class="stat-mini-lbl">↓ Incidents</div></div>
+        <div class="stat-mini"><div class="stat-mini-num">24/7</div><div class="stat-mini-lbl">On-Call</div></div>
+      </div>
+
+      <hr class="divider">
+      <div class="social-row">
+        <a class="social-btn" href="https://www.linkedin.com/in/shah-0806/" title="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+        <a class="social-btn" href="https://github.com/Nitz8690" title="GitHub"><i class="fa-brands fa-github"></i></a>
+        <a class="social-btn" href="https://twitter.com/nitz8690" title="X / Twitter"><i class="fa-brands fa-x-twitter"></i></a>
+        <a class="social-btn" href="https://www.facebook.com/nishant.shah.775/" title="Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+      </div>
     </div>
-    <br>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card card-body h-100">
-                <h5>My Thesis Work</h5>
-                <hr>
-                <p><h6>Raccoon Detection in Real Time using Raspberry Pi</h6></p>
-                <p><strong> --> </strong> Developed highly accurate Embedded Machine Learning model for
-                    Raspberry Pi 4 processors to make it cost and power efficient.</p>
-                <p><strong> --> </strong> Challenges: Obtain Accuracy, Improve Frames Per Second,
-                    Practical implications of the developed model
-                </p>
-            </div>
-        </div>
 
-        <div class="col-md-6">
-            <div class="card card-body h-100">
-                <h5>What I Know</h5>
-                <hr>
-                <p><b>Programming Languages:</b> Python, JavaScript, JAVA, HTML5, CSS3 <br>
-                    <b>ML Frameworks:</b> Tensorflow, PyTorch, Scikit-Learn...<br>
-                    <b>ML Libraries:</b> NumPy, SciPy, Pandas, OpenCV, NLTK, MatplotLib...<br>
-                    <b>DevOps Tools:</b> Git, Jenkins, Docker, Kubernets, Ansible, Maven...<br>
-                    <b>Cloud Computing:</b> AWS, SAP Cloud Platform<br>
-                    <b>Database:</b> SQL, MongoDb, SAP HANA(basic) ,PostgreSQL<br>
-                    <b>BigData Tools:</b> Spark, Hadoop(Basic) <br>
-            </div>
-        </div>
+    <!-- Current Role -->
+    <div class="gc role-card">
+      <div class="role-header">
+        <div class="role-badge-live"><div class="live-dot"></div> Currently Active</div>
+        <div class="role-period mono">Aug 2024 – Present</div>
+      </div>
+
+      <div class="role-title">Senior DevOps Engineer<br><span style="color:var(--w70);font-size:0.8em;">/ IT System Engineer</span></div>
+      <div class="role-company"><i class="fa-solid fa-building"></i> Fiserv &nbsp;—&nbsp; Nuremberg, Germany</div>
+      <div class="role-desc">Managing and supporting <strong style="color:var(--gold);">5 enterprise-level applications</strong> across hybrid-cloud infrastructure at Fiserv, a global fintech leader. Responsible for end-to-end CI/CD pipelines, cloud operations, security compliance, and 24/7 production stability.</div>
+
+      <div class="stat-strip">
+        <div class="stat-block"><div class="stat-num">50%+</div><div class="stat-lbl">Incident Reduction</div></div>
+        <div class="stat-block"><div class="stat-num">5</div><div class="stat-lbl">Apps in Prod</div></div>
+        <div class="stat-block"><div class="stat-num">24/7</div><div class="stat-lbl">Uptime Ownership</div></div>
+      </div>
+
+      <div class="sec-label">Key Achievements</div>
+      <div class="ach-list">
+        <div class="ach-item"><div class="ach-emoji">🛡️</div><div>Reduced incidents <strong>50%+</strong> via auto-healing &amp; automation scripts</div></div>
+        <div class="ach-item"><div class="ach-emoji">⚡</div><div>Optimised CI/CD pipelines — faster deploys, fewer rollbacks</div></div>
+        <div class="ach-item"><div class="ach-emoji">🔄</div><div>On-prem server migrations + MySQL DB replication setup</div></div>
+        <div class="ach-item"><div class="ach-emoji">📚</div><div>Cut resolution time via process flows &amp; team knowledge sharing</div></div>
+        <div class="ach-item"><div class="ach-emoji">🔁</div><div>Annual Disaster Recovery exercises — PCI DSS compliant</div></div>
+        <div class="ach-item"><div class="ach-emoji">🔒</div><div>Security compliance — OWASP, PCI DSS across all platforms</div></div>
+      </div>
+
+      <div class="sec-label">Stack</div>
+      <div class="tag-row">
+        <span class="tag tg">GitLab CI/CD</span><span class="tag tg">Jenkins</span><span class="tag tg">Kubernetes</span>
+        <span class="tag tg">Helm</span><span class="tag tg">Docker</span><span class="tag tg">Harbor</span>
+        <span class="tag tm">AWS EC2</span><span class="tag tm">AWS S3</span>
+        <span class="tag tw">Grafana</span><span class="tag tw">Splunk</span><span class="tag tw">MySQL</span>
+        <span class="tag tw">BMC Scheduler</span><span class="tag tw">Agile/SAFe</span>
+      </div>
     </div>
-    <br>
-    <div class="row">
-        <div class="col-md-6">
-            <div class="card card-body h-100">
-                <h5>How I Learn</h5>
-                <hr>
-                <p>Reverse Engineer & Build Ugly Prototypes First.</p>
+  </div>
 
-                <p>I can learn just about anything by having a final product to tear apart piece by piece. I break the
-                    code where I need to figure out why things work the way they do. Documentation is just a
-                    reference.</p>
-            </div>
+  <!-- ══ MIDDLE ROW ══ -->
+  <div class="mid-grid">
+
+    <!-- Timeline -->
+    <div class="gc timeline-card reveal reveal-2">
+      <div class="sec-label">Career Timeline</div>
+      <div class="tl-items">
+
+        <div class="tl-item tl-devops">
+          <div class="tl-top">
+            <div class="tl-role">Junior Data Scientist</div>
+            <div class="tl-date">Sep 2021 – Aug 2024</div>
+          </div>
+          <div class="tl-co"><i class="fa-solid fa-database fa-xs"></i> &nbsp;ONE DATA GmbH — Munich</div>
+          <div class="tl-desc">Automotive &amp; supply chain ML — recommendation systems, delivery date forecasting, demand planning for inventory optimisation.</div>
+          <ul class="tl-bullets">
+            <li>ETL pipelines, data quality checks, workflow automation</li>
+            <li>Tableau &amp; Grafana dashboards for KPI and ops monitoring</li>
+            <li>Webhook alerts (Teams/Slack) for production failure notifications</li>
+            <li>EDA, feature engineering, model evaluation using ML matrices</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag tm">Python</span><span class="tag tm">R</span><span class="tag tm">SQL</span>
+            <span class="tag tw">Tableau</span><span class="tag tw">PostgreSQL</span><span class="tag tw">Argo CD</span>
+            <span class="tag tw">Kubernetes</span><span class="tag tw">Prometheus</span><span class="tag tw">Grafana</span>
+          </div>
         </div>
 
-        <div class="col-md-6">
-            <div class="card card-body h-100">
-                <h5>My Short Term Goals</h5>
-                <hr>
-                <p>After sucessfully completed my masters in Information Technology now, I'm ready to deep dive into
-                    Data Science & Artificial Inteligece Field. Also, I am excited to learn some new latest technology in
-                    this field.
-                    I'll
-                    collaborating and sharing my experience with others on my github.</p>
-                <p>Aside from building small projects I would love to enter a position where I can be part of a bigger
-                    team & learn from others with more experience than myself.</p>
-
-            </div>
+        <div class="tl-item">
+          <div class="tl-top">
+            <div class="tl-role">MLOps Engineer</div>
+            <div class="tl-date">Jan 2021 – Aug 2021</div>
+          </div>
+          <div class="tl-co"><i class="fa-solid fa-robot fa-xs"></i> &nbsp;Lacritz — Frankfurt am Main</div>
+          <div class="tl-desc">End-to-end ML pipeline development and production deployment — experiment tracking, containerised model serving on AWS.</div>
+          <ul class="tl-bullets">
+            <li>Data collection → preprocessing → training → deployment (Docker, K8s, ECR/S3)</li>
+            <li>MLflow &amp; DVC for experiment tracking and artifact versioning</li>
+          </ul>
+          <div class="tag-row">
+            <span class="tag tg">PyTorch</span><span class="tag tg">YOLOv4</span><span class="tag tg">MLflow</span>
+            <span class="tag tg">DVC</span><span class="tag tw">Jenkins</span>
+            <span class="tag tw">Docker</span><span class="tag tm">AWS ECR/S3</span><span class="tag tw">MongoDB</span>
+          </div>
         </div>
+
+        <div class="tl-item">
+          <div class="tl-top">
+            <div class="tl-role">Data Scientist / Cloud Engineer</div>
+            <div class="tl-date">Nov 2019 – Apr 2020</div>
+          </div>
+          <div class="tl-co"><i class="fa-solid fa-industry fa-xs"></i> &nbsp;Siemens AG — Mannheim</div>
+          <div class="tl-desc">Co-developed an NLP document classification model combining CV and semantic NLP despite high training data variance.</div>
+          <div class="tag-row">
+            <span class="tag tm">TensorFlow 2.0</span><span class="tag tm">BERT</span><span class="tag tm">ELMo</span>
+            <span class="tag tm">GloVe</span><span class="tag tm">Word2Vec</span>
+            <span class="tag tw">OpenCV</span><span class="tag tw">Jenkins</span><span class="tag tw">Docker</span>
+          </div>
+        </div>
+
+        <div class="tl-item tl-neutral">
+          <div class="tl-top">
+            <div class="tl-role">API Testing Engineer</div>
+            <div class="tl-date">Nov 2018 – May 2019</div>
+          </div>
+          <div class="tl-co"><i class="fa-solid fa-gear fa-xs"></i> &nbsp;Forcam GmbH — Germany</div>
+          <div class="tl-desc">Testing and documentation of web-based APIs for IoT industrial devices.</div>
+        </div>
+
+      </div>
     </div>
-    <br>
+
+    <!-- Right column -->
+    <div class="right-col">
+
+      <!-- Skill bars -->
+      <div class="gc skill-card reveal reveal-3">
+        <div class="sec-label">Proficiency</div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">DevOps &amp; Cloud</div>
+          <div class="sk-item"><div class="sk-top"><span>Kubernetes &amp; Docker</span><span class="sk-pct">90%</span></div><div class="sk-bg"><div class="sk-bar" style="--pct:90%; width:90%;"></div></div></div>
+          <div class="sk-item"><div class="sk-top"><span>GitLab / Jenkins CI/CD</span><span class="sk-pct">88%</span></div><div class="sk-bg"><div class="sk-bar" style="--pct:88%; width:88%;"></div></div></div>
+          <div class="sk-item"><div class="sk-top"><span>AWS (EC2, S3, ECS, ECR)</span><span class="sk-pct">82%</span></div><div class="sk-bg"><div class="sk-bar" style="--pct:82%; width:82%;"></div></div></div>
+          <div class="sk-item"><div class="sk-top"><span>Grafana &amp; Prometheus</span><span class="sk-pct">85%</span></div><div class="sk-bg"><div class="sk-bar" style="--pct:85%; width:85%;"></div></div></div>
+        </div>
+
+        <div class="skill-group">
+          <div class="skill-group-label">ML &amp; Data Science</div>
+          <div class="sk-item"><div class="sk-top"><span>Python &amp; SQL</span><span class="sk-pct">92%</span></div><div class="sk-bg"><div class="sk-bar" style="--pct:92%; width:92%;"></div></div></div>
+          <div class="sk-item"><div class="sk-top"><span>TensorFlow &amp; PyTorch</span><span class="sk-pct">80%</span></div><div class="sk-bg"><div class="sk-bar" style="--pct:80%; width:80%;"></div></div></div>
+          <div class="sk-item"><div class="sk-top"><span>MLflow &amp; DVC (MLOps)</span><span class="sk-pct">78%</span></div><div class="sk-bg"><div class="sk-bar" style="--pct:78%; width:78%;"></div></div></div>
+          <div class="sk-item"><div class="sk-top"><span>NLP (BERT, ELMo, GloVe)</span><span class="sk-pct">74%</span></div><div class="sk-bg"><div class="sk-bar" style="--pct:74%; width:74%;"></div></div></div>
+        </div>
+      </div>
+
+      <!-- Terminal card -->
+      <div class="gc terminal-card reveal reveal-4">
+        <div class="terminal-header">
+          <div class="t-dot t-red"></div><div class="t-dot t-yellow"></div><div class="t-dot t-green"></div>
+          <div class="terminal-filename">nishant.json</div>
+        </div>
+        <div class="terminal-body mono">
+          <span class="t-comment">// engineer profile</span><br>
+          {<br>
+          &nbsp;&nbsp;<span class="t-key">"name"</span>: <span class="t-str">"Nishant Shah"</span>,<br>
+          &nbsp;&nbsp;<span class="t-key">"role"</span>: <span class="t-str">"Sr. DevOps + ML Engineer"</span>,<br>
+          &nbsp;&nbsp;<span class="t-key">"location"</span>: <span class="t-str">"Nuremberg, DE 🇩🇪"</span>,<br>
+          &nbsp;&nbsp;<span class="t-key">"experience"</span>: <span class="t-num">6</span>,  <span class="t-comment">// years</span><br>
+          &nbsp;&nbsp;<span class="t-key">"languages"</span>: [<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;<span class="t-str">"Python"</span>, <span class="t-str">"Bash"</span>, <span class="t-str">"SQL"</span>, <span class="t-str">"R"</span><br>
+          &nbsp;&nbsp;],<br>
+          &nbsp;&nbsp;<span class="t-key">"cloud"</span>: <span class="t-str">"AWS"</span>,<br>
+          &nbsp;&nbsp;<span class="t-key">"containers"</span>: [<span class="t-str">"Docker"</span>, <span class="t-str">"K8s"</span>],<br>
+          &nbsp;&nbsp;<span class="t-key">"german_level"</span>: <span class="t-str">"A1→A2"</span>,<br>
+          &nbsp;&nbsp;<span class="t-key">"open_to_work"</span>: <span class="t-val">false</span>,<br>
+          &nbsp;&nbsp;<span class="t-key">"passion"</span>: <span class="t-str">"MLOps &amp; Platform Eng"</span><br>
+          }<span class="t-cursor"></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ══ BOTTOM ROW ══ -->
+  <div class="bot-grid">
+
+    <!-- Tech cloud -->
+    <div class="gc chip-cloud reveal reveal-4">
+      <div class="sec-label">Full Tech Stack</div>
+      <div class="chips">
+        <span class="chip">Python</span><span class="chip">R</span><span class="chip">SQL</span>
+        <span class="chip">Bash</span><span class="chip">Java</span><span class="chip">JavaScript</span>
+        <span class="chip">Docker</span><span class="chip">Kubernetes</span><span class="chip">Helm</span>
+        <span class="chip">Argo CD</span><span class="chip">Harbor</span>
+        <span class="chip">GitLab CI</span><span class="chip">Jenkins</span>
+        <span class="chip">AWS EC2</span><span class="chip">S3</span><span class="chip">ECR</span>
+        <span class="chip">SageMaker</span><span class="chip">Lambda</span><span class="chip">ECS</span>
+        <span class="chip">TensorFlow</span><span class="chip">PyTorch</span>
+        <span class="chip">MLflow</span><span class="chip">DVC</span><span class="chip">YOLOv4</span>
+        <span class="chip">BERT</span><span class="chip">ELMo</span><span class="chip">GloVe</span>
+        <span class="chip">Scikit-Learn</span><span class="chip">OpenCV</span><span class="chip">NLTK</span>
+        <span class="chip">MySQL</span><span class="chip">PostgreSQL</span><span class="chip">MongoDB</span>
+        <span class="chip">Grafana</span><span class="chip">Prometheus</span><span class="chip">Splunk</span>
+        <span class="chip">Tableau</span><span class="chip">Power BI</span>
+        <span class="chip">Django</span><span class="chip">Flask</span>
+        <span class="chip">Spark</span><span class="chip">Hadoop</span>
+      </div>
+    </div>
+
+    <!-- Education + Thesis -->
+    <div class="gc edu-card reveal reveal-5">
+      <div class="sec-label">Education</div>
+      <div class="edu-item">
+        <div class="edu-school">SRH University Heidelberg 🇩🇪</div>
+        <div class="edu-deg">M.Eng. Information Technology</div>
+        <div class="edu-detail">GPA 2.0 &nbsp;·&nbsp; Apr 2018 – Mar 2020</div>
+        <div style="margin-top:0.5rem; font-size:0.78rem; color:var(--w70); line-height:1.5;">
+          <strong style="color:var(--gold);">Thesis:</strong> Raccoon Detection in Real Time using Raspberry Pi —
+          embedded ML model optimised for edge inference, FPS, and low power.
+        </div>
+        <div class="tag-row" style="margin-top:0.4rem;">
+          <span class="tag tg">Edge ML</span><span class="tag tg">Raspberry Pi</span><span class="tag tw">OpenCV</span>
+        </div>
+      </div>
+      <div class="edu-item">
+        <div class="edu-school">Gujarat Technological University 🇮🇳</div>
+        <div class="edu-deg">B.Eng. Electrical Engineering</div>
+        <div class="edu-detail">GPA 2.4 &nbsp;·&nbsp; Aug 2008 – May 2012</div>
+      </div>
+      <hr class="divider">
+      <div class="sec-label" style="margin-top:0.5rem;">Languages</div>
+      <div style="display:flex; gap:12px; flex-wrap:wrap;">
+        <div><span style="color:var(--white);font-size:0.82rem;font-weight:700;">English</span><br><span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--mint);">C1 — Business Fluent</span></div>
+        <div><span style="color:var(--white);font-size:0.82rem;font-weight:700;">German</span><br><span style="font-family:var(--font-mono);font-size:0.68rem;color:var(--w40);">A1 → learning A2</span></div>
+      </div>
+    </div>
+
+    <!-- Certs + Mindset -->
+    <div class="gc cert-card-inner reveal reveal-6">
+      <div class="sec-label">Certifications</div>
+      <div class="cert-item">
+        <div class="cert-badge"><i class="fa-brands fa-aws"></i></div>
+        <div>
+          <div class="cert-name">AWS Certified Machine Learning – Specialty</div>
+          <div class="cert-meta">2024 &nbsp;·&nbsp; Amazon Web Services</div>
+          <a class="cert-link" href="https://www.credly.com/badges/657be95-3be5-4462-8b49-22a208a1428f/public_url" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i> Verify</a>
+        </div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-badge"><i class="fa-brands fa-aws"></i></div>
+        <div>
+          <div class="cert-name">AWS Certified Solutions Architect – Associate</div>
+          <div class="cert-meta">2024 &nbsp;·&nbsp; Amazon Web Services</div>
+          <a class="cert-link" href="https://www.credly.com/badges/24c43eae-a333-445a-93d3-9752203c5993/public_url" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i> Verify</a>
+        </div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-badge"><i class="fa-brands fa-aws"></i></div>
+        <div>
+          <div class="cert-name">AWS Certified Cloud Practitioner</div>
+          <div class="cert-meta">Feb 2023 &nbsp;·&nbsp; Amazon Web Services</div>
+          <a class="cert-link" href="https://www.credly.com/badges/938362d5-a9d5-44e8-8988-5cd5729ff3b8/public_url" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i> Verify</a>
+        </div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-badge"><i class="fa-solid fa-brain"></i></div>
+        <div>
+          <div class="cert-name">Machine Learning A–Z + ChatGPT</div>
+          <div class="cert-meta">Jul 2019 &nbsp;·&nbsp; Udemy</div>
+          <a class="cert-link" href="https://www.udemy.com/certificate/UC-KVAKSDA6/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i> Verify</a>
+        </div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-badge"><i class="fa-solid fa-network-wired"></i></div>
+        <div>
+          <div class="cert-name">Deep Learning A–Z: Neural Networks + AI</div>
+          <div class="cert-meta">Jul 2019 &nbsp;·&nbsp; Udemy</div>
+          <a class="cert-link" href="https://www.udemy.com/certificate/UC-3CY9ASJ2/" target="_blank"><i class="fa-solid fa-arrow-up-right-from-square fa-xs"></i> Verify</a>
+        </div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-badge"><i class="fa-brands fa-docker"></i></div>
+        <div>
+          <div class="cert-name">DevOps MasterClass: Git, Docker, Jenkins, K8s</div>
+          <div class="cert-meta">Sep 2020 &nbsp;·&nbsp; Udemy</div>
+        </div>
+      </div>
+      <div class="cert-item">
+        <div class="cert-badge"><i class="fa-solid fa-leaf"></i></div>
+        <div>
+          <div class="cert-name">M001: MongoDB Basics</div>
+          <div class="cert-meta">Sep 2020 &nbsp;·&nbsp; MongoDB University</div>
+        </div>
+      </div>
+      <hr class="divider">
+      <div class="sec-label">Philosophy</div>
+      <div style="font-size:0.8rem; color:var(--w70); line-height:1.6; font-style:italic;">
+        "Reverse engineer first. Build ugly prototypes. Break things intentionally until you understand why they work."
+      </div>
+    </div>
+
+  </div>
 </div>
+
 {% endblock content %}

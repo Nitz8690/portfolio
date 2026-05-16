@@ -69,12 +69,30 @@
     </div>
 </nav>
 
-{% for message in messages %}
-<div class="alert alert-custom alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-    <span>{{ message }}</span>
-    <button aria-label="Close" class="close" data-dismiss="alert" type="button"><span aria-hidden="true">&times;</span></button>
-</div>
-{% endfor %}
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+(function() {
+  const messages = [
+    {% for message in messages %}
+    {text: "{{ message|escapejs }}", tags: "{{ message.tags }}"},
+    {% endfor %}
+  ];
+  if (messages.length > 0) {
+    const container = document.getElementById('toastContainer');
+    messages.forEach(function(msg) {
+      const icon = msg.tags === 'success' ? '&#10003;' : msg.tags === 'error' ? '&#10007;' : '&#9888;';
+      const title = msg.tags === 'success' ? 'Success!' : msg.tags === 'error' ? 'Error!' : 'Notice';
+      const toast = document.createElement('div');
+      toast.className = 'toast-notification ' + msg.tags;
+      toast.innerHTML = '<div class="toast-icon">' + icon + '</div><div class="toast-content"><div class="toast-title">' + title + '</div><div class="toast-message">' + msg.text + '</div></div><button class="toast-close" onclick="this.parentElement.remove()">&times;</button>';
+      container.appendChild(toast);
+      setTimeout(function() { toast.classList.add('show'); }, 10);
+      setTimeout(function() { toast.classList.remove('show'); setTimeout(function(){toast.remove();},300); }, 5000);
+    });
+  }
+})();
+</script>
 
 <!-- SignUp Modal -->
 <div aria-hidden="true" aria-labelledby="signupModal" class="modal fade" id="signupModal" role="dialog" tabindex="-1">

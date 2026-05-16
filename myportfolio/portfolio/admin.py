@@ -12,3 +12,4 @@ from .models import *
 #     fields = ('name', 'username')
 
 admin.site.register(Project)
+admin.site.register(ContactMessage)

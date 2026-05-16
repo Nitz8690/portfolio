@@ -4,13 +4,14 @@
 {% block content %}
 <style>
 .doc-wrap{display:flex;align-items:center;justify-content:center;min-height:60vh;padding:2rem 1rem;}
+.doc-card{background:var(--bg);border:1px solid var(--border-light);border-radius:14px;box-shadow:var(--card-shadow);padding:3rem 2.5rem;max-width:480px;width:100%;text-align:center;}
 </style>
 <div class="doc-wrap a1">
-  <div class="glass" style="padding:3rem 2.5rem;max-width:480px;width:100%;text-align:center;">
+  <div class="doc-card">
     <div style="font-size:3.5rem;margin-bottom:1rem;">&#128196;</div>
-    <h2 style="font-size:1.5rem;font-weight:900;color:var(--w);margin-bottom:.5rem;letter-spacing:-.03em;">Documents</h2>
-    <p style="font-size:.9rem;color:var(--w40);line-height:1.6;margin-bottom:1.5rem;">Case studies, technical write-ups, and curated docs coming soon.</p>
-    <a class="btn-g" href="/home">&#8592; Back Home</a>
+    <h2 style="font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:.5rem;letter-spacing:-.02em;">Documents</h2>
+    <p style="font-size:.9rem;color:var(--text-secondary);line-height:1.6;margin-bottom:1.5rem;">Case studies, technical write-ups, and curated docs coming soon.</p>
+    <a class="btn-g" href="/home">&larr; Back Home</a>
   </div>
 </div>
 {% endblock %}

@@ -4,13 +4,14 @@
 {% block content %}
 <style>
 .e404-wrap{display:flex;align-items:center;justify-content:center;min-height:70vh;padding:2rem 1rem;}
+.e404-card{background:var(--bg);border:1px solid var(--border-light);border-radius:14px;box-shadow:var(--card-shadow);padding:3rem 2.5rem;max-width:500px;width:100%;text-align:center;}
 </style>
 <div class="e404-wrap a1">
-  <div class="glass" style="padding:3rem 2.5rem;max-width:500px;width:100%;text-align:center;">
-    <div style="font-size:5rem;font-weight:900;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;letter-spacing:-.04em;">404</div>
-    <div style="font-family:var(--fm);font-size:.8rem;color:var(--cyan);margin:.5rem 0 1rem;">// page_not_found</div>
-    <p style="font-size:.95rem;color:var(--w40);line-height:1.6;margin-bottom:2rem;">This page doesn't exist or has been moved.</p>
-    <a class="btn-p" href="/home">&#8592; Back to Home</a>
+  <div class="e404-card">
+    <div style="font-size:5rem;font-weight:700;color:var(--text);line-height:1;letter-spacing:-.04em;">404</div>
+    <div style="font-family:var(--font-mono);font-size:.82rem;color:var(--accent);margin:.5rem 0 1rem;">page_not_found</div>
+    <p style="font-size:.95rem;color:var(--text-secondary);line-height:1.6;margin-bottom:2rem;">This page doesn't exist or has been moved.</p>
+    <a class="btn-p" href="/home">&larr; Back to Home</a>
   </div>
 </div>
 {% endblock %}

@@ -4,33 +4,32 @@
 {% block content %}
 <style>
 .sr-wrap{padding:2.5rem 0 3rem;}
-.sr-heading{font-size:1.5rem;font-weight:900;color:var(--w);letter-spacing:-.03em;margin-bottom:.3rem;}
-.sr-heading span{background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.sr-meta{font-family:var(--fm);font-size:.73rem;color:var(--w40);margin-bottom:2rem;}
-.sr-meta strong{color:var(--cyan);}
-.sr-card{background:rgba(255,255,255,.04);border:1px solid var(--gb);border-radius:12px;margin-bottom:1rem;transition:all .3s;overflow:hidden;}
-.sr-card:hover{transform:translateY(-3px);border-color:rgba(0,212,255,.2);box-shadow:0 12px 32px rgba(0,0,0,.3);}
+.sr-heading{font-size:1.5rem;font-weight:700;color:var(--text);letter-spacing:-.02em;margin-bottom:.3rem;}
+.sr-meta{font-size:.82rem;color:var(--text-secondary);margin-bottom:2rem;}
+.sr-meta strong{color:var(--text);}
+.sr-card{background:var(--bg);border:1px solid var(--border-light);border-radius:12px;margin-bottom:1rem;transition:box-shadow .2s;overflow:hidden;}
+.sr-card:hover{box-shadow:var(--card-shadow);}
 .sr-card-inner{padding:1.2rem 1.4rem;}
-.sr-cat{font-family:var(--fm);font-size:.63rem;font-weight:700;color:var(--cyan);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.2rem;}
-.sr-name{font-size:1.05rem;font-weight:800;color:var(--w);margin-bottom:.1rem;letter-spacing:-.01em;}
-.sr-date{font-family:var(--fm);font-size:.68rem;color:var(--w40);margin-bottom:.5rem;}
-.sr-desc{font-size:.85rem;color:var(--w70);line-height:1.6;margin-bottom:.7rem;}
-.sr-link{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,var(--cyan),var(--purple));color:var(--w);font-weight:700;font-size:.78rem;border-radius:8px;padding:.4rem 1rem;text-decoration:none;transition:all .3s;}
-.sr-link:hover{transform:translateY(-2px);box-shadow:var(--glow-cyan);color:var(--w);}
+.sr-cat{font-family:var(--font-mono);font-size:.68rem;font-weight:600;color:var(--accent);text-transform:uppercase;letter-spacing:.08em;margin-bottom:.2rem;}
+.sr-name{font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.1rem;}
+.sr-date{font-size:.75rem;color:var(--text-secondary);margin-bottom:.5rem;font-family:var(--font-mono);}
+.sr-desc{font-size:.85rem;color:var(--text-secondary);line-height:1.6;margin-bottom:.7rem;}
+.sr-link{display:inline-flex;align-items:center;gap:6px;background:var(--accent);color:#fff;font-weight:600;font-size:.8rem;border-radius:8px;padding:.4rem 1rem;text-decoration:none;transition:all .2s;}
+.sr-link:hover{background:var(--accent-hover);color:#fff;}
 .sr-empty{text-align:center;padding:4rem 1rem;}
-.sr-empty h3{font-weight:900;color:var(--w);margin-bottom:.5rem;}
+.sr-empty h3{font-weight:700;color:var(--text);margin-bottom:.5rem;}
 </style>
 
 <div class="sr-wrap">
   <div class="a1">
-    <h1 class="sr-heading">Search <span>Results</span></h1>
-    <p class="sr-meta">// query: <strong>{{ query }}</strong></p>
+    <h1 class="sr-heading">Search Results</h1>
+    <p class="sr-meta">query: <strong>{{ query }}</strong></p>
   </div>
   {% if allProjs|length < 1 %}
   <div class="sr-empty a2">
     <div style="font-size:3.5rem;margin-bottom:1rem;">&#128269;</div>
     <h3>No Matches</h3>
-    <p style="color:var(--w40);font-size:.9rem;max-width:400px;margin:.3rem auto 0;">No results for "{{ query }}". Try different keywords.</p>
+    <p style="color:var(--text-secondary);font-size:.9rem;max-width:400px;margin:.3rem auto 0;">No results for "{{ query }}". Try different keywords.</p>
   </div>
   {% endif %}
   {% for projects in allProjs %}
@@ -40,7 +39,7 @@
       <div class="sr-name">{{ projects.proj_name }}</div>
       <div class="sr-date">{{ projects.pub_date }}</div>
       <div class="sr-desc">{{ projects.proj_desc|truncatechars:500 }}</div>
-      <a class="sr-link" href="{{ projects.proj_link1 }}">Continue &#8594;</a>
+      <a class="sr-link" href="{{ projects.proj_link1 }}">Continue &rarr;</a>
     </div>
   </div>
   {% endfor %}

@@ -6,7 +6,10 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, HttpResponse, redirect
 from django.db import IntegrityError
 
-from .models import Project
+from django.core.mail import send_mail
+from django.conf import settings
+
+from .models import Project, ContactMessage
 
 
 # Create your views here.
@@ -37,6 +40,45 @@ def projects(request):
 
 
 def contactme(request):
+    if request.method == 'POST':
+        first_name = request.POST.get('first_name', '').strip()
+        last_name = request.POST.get('last_name', '').strip()
+        email = request.POST.get('email', '').strip()
+        subject = request.POST.get('subject', '').strip()
+        message = request.POST.get('message', '').strip()
+
+        if not first_name or not email or not message:
+            messages.error(request, 'Please fill in all required fields (First Name, Email, Message).')
+            return redirect('contactme')
+
+        ContactMessage.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+            email=email,
+            subject=subject,
+            message=message,
+        )
+
+        full_subject = f"[Portfolio Contact] {subject or 'New Message'}"
+        full_message = f"From: {first_name} {last_name} <{email}>\n\n{message}"
+
+        try:
+            send_mail(
+                full_subject,
+                full_message,
+                settings.DEFAULT_FROM_EMAIL,
+                [settings.CONTACT_EMAIL],
+                fail_silently=True,
+            )
+        except Exception:
+            pass
+
+        messages.success(
+            request,
+            f'Thanks {first_name}! Your message has been received. I\'ll get back to you soon.'
+        )
+        return redirect('contactme')
+
     return render(request, 'pf/contactme.html')
 
 

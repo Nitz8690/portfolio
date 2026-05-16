@@ -4,13 +4,14 @@
 {% block content %}
 <style>
 .lo-wrap{display:flex;align-items:center;justify-content:center;min-height:60vh;padding:2rem 1rem;}
+.lo-card{background:var(--bg);border:1px solid var(--border-light);border-radius:14px;box-shadow:var(--card-shadow);padding:3rem 2.5rem;max-width:460px;width:100%;text-align:center;}
 </style>
 <div class="lo-wrap a1">
-  <div class="glass" style="padding:3rem 2.5rem;max-width:460px;width:100%;text-align:center;">
+  <div class="lo-card">
     <div style="font-size:3.5rem;margin-bottom:1rem;">&#128075;</div>
-    <h2 style="font-size:1.5rem;font-weight:900;color:var(--w);margin-bottom:.3rem;letter-spacing:-.03em;">Logged Out</h2>
-    <p style="font-size:.9rem;color:var(--w40);margin-bottom:1.8rem;">Session closed. Thanks for visiting!</p>
-    <a class="btn-p" href="/home">&#8592; Back Home</a>
+    <h2 style="font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:.3rem;letter-spacing:-.02em;">Logged Out</h2>
+    <p style="font-size:.9rem;color:var(--text-secondary);margin-bottom:1.8rem;">Session closed. Thanks for visiting!</p>
+    <a class="btn-p" href="/home">&larr; Back Home</a>
   </div>
 </div>
 {% endblock %}

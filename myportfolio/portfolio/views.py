@@ -24,8 +24,8 @@ def aboutme(request):
 
 
 def projects(request):
+    allProjs = []
     if request.user.is_authenticated:
-        allProjs = []
         catprojs = Project.objects.values('category')
         cats = {item['category'] for item in catprojs}
         for cat in cats:
@@ -33,10 +33,7 @@ def projects(request):
             n = len(proj)
             nSlides = n // 3 + ceil((n / 3) - (n // 3))
             allProjs.append([proj, range(1, nSlides), nSlides])
-        context = {'allProjs': allProjs}
-        return render(request, 'pf/projects.html', context)
-    else:
-        return render(request, 'pf/home2.html')
+    return render(request, 'pf/projects.html', {'allProjs': allProjs})
 
 
 def contactme(request):
@@ -69,41 +66,35 @@ def search(request):
         context = {'allProjs': allProjs, 'query': query}
         return render(request, 'pf/search.html', context)
     else:
-        return render(request, 'pf/home2.html')
+        return redirect('projects')
 
 
 def handleSignup(request):
     if request.method == 'POST':
-        # Get the post parameters
         username = request.POST['username']
         fname = request.POST['fname']
         lname = request.POST['lname']
         email = request.POST['email']
         pass1 = request.POST['pass1']
         pass2 = request.POST['pass2']
+        next_url = request.POST.get('next', 'home')
 
-        # Check for erroneous inputs
-        # username should be under 10 characters
         if len(username) > 10:
             messages.error(request, "Username must be under 10 characters")
-            return redirect('home')
+            return redirect(next_url)
 
-        # username should be alphanumeric
         if not username.isalnum():
             messages.error(request, "Username should only contain letters and numbers")
-            return redirect('home')
+            return redirect(next_url)
 
-        # passwords should match
         if pass1 != pass2:
             messages.error(request, "Passwords do not match")
-            return redirect('home')
+            return redirect(next_url)
 
-        # username uniqueness check
         if User.objects.filter(username=username).exists():
             messages.error(request, "Username already exists. Please choose a different username")
-            return redirect('home')
+            return redirect(next_url)
 
-        # Create the user
         try:
             myuser = User.objects.create_user(username, email, pass1)
             myuser.first_name = fname
@@ -111,29 +102,29 @@ def handleSignup(request):
             myuser.save()
         except IntegrityError:
             messages.error(request, "Could not create user due to a database error. Please try a different username.")
-            return redirect('home')
+            return redirect(next_url)
 
         messages.success(request, "Your account has been successfully created")
-        return redirect('home')
+        return redirect(next_url)
     else:
         return HttpResponse('404 - Not Found')
 
 
 def handleLogin(request):
     if request.method == 'POST':
-        # Get the post parameters
         loginusername = request.POST['loginusername']
         loginpassword = request.POST['loginpassword']
+        next_url = request.POST.get('next', 'home')
 
         user = authenticate(username=loginusername, password=loginpassword)
 
         if user is not None:
             login(request, user)
             messages.success(request, "Successfully Logged In")
-            return redirect('home')
+            return redirect(next_url)
         else:
             messages.error(request, "Invalid Credentials, Please try again")
-            return redirect('home')
+            return redirect(next_url)
 
     return HttpResponse('404 - Not Found')
 
@@ -143,3 +134,7 @@ def handleLogout(request):
     messages.success(request, "Successfully Logged Out... Thanks for visiting my Website")
     # return redirect('logout')
     return render(request, 'pf/logout.html')
+
+
+def handler404(request, exception):
+    return render(request, 'pf/404.html', status=404)

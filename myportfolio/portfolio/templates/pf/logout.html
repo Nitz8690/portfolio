@@ -1,12 +1,16 @@
 {% extends 'pf/base.html' %}
 {% load static %}
-{% block title %}Logged Out{% endblock title %}
+{% block title %}Logged Out — Nishant Shah{% endblock %}
 {% block content %}
-<div style="display:flex;align-items:center;justify-content:center;min-height:60vh;text-align:center;">
-    <div>
-        <h2 style="color:#fff;font-size:2rem;margin-bottom:1rem;">You have been logged out</h2>
-        <p style="color:rgba(255,255,255,.7);font-size:1.1rem;margin-bottom:1.5rem;">Thank you for visiting!</p>
-        <a href="/home" style="display:inline-block;padding:.7rem 1.8rem;background:#F5C842;color:#111;border-radius:8px;text-decoration:none;font-weight:700;">Back to Home</a>
-    </div>
+<style>
+.lo-wrap{display:flex;align-items:center;justify-content:center;min-height:60vh;padding:2rem 1rem;}
+</style>
+<div class="lo-wrap a1">
+  <div class="glass" style="padding:3rem 2.5rem;max-width:460px;width:100%;text-align:center;">
+    <div style="font-size:3.5rem;margin-bottom:1rem;">&#128075;</div>
+    <h2 style="font-size:1.5rem;font-weight:900;color:var(--w);margin-bottom:.3rem;letter-spacing:-.03em;">Logged Out</h2>
+    <p style="font-size:.9rem;color:var(--w40);margin-bottom:1.8rem;">Session closed. Thanks for visiting!</p>
+    <a class="btn-p" href="/home">&#8592; Back Home</a>
+  </div>
 </div>
-{% endblock content %}
+{% endblock %}

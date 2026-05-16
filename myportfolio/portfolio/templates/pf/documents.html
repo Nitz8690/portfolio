@@ -1,10 +1,16 @@
 {% extends 'pf/base.html' %}
-{% block title %}Documents{% endblock title %}
+{% load static %}
+{% block title %}Documents — Nishant Shah{% endblock %}
 {% block content %}
-<div style="display:flex;align-items:center;justify-content:center;min-height:60vh;text-align:center;">
-    <div>
-        <h2 style="color:#fff;font-size:2rem;margin-bottom:1rem;">Documents</h2>
-        <p style="color:rgba(255,255,255,.7);font-size:1.1rem;">This section is coming soon.</p>
-    </div>
+<style>
+.doc-wrap{display:flex;align-items:center;justify-content:center;min-height:60vh;padding:2rem 1rem;}
+</style>
+<div class="doc-wrap a1">
+  <div class="glass" style="padding:3rem 2.5rem;max-width:480px;width:100%;text-align:center;">
+    <div style="font-size:3.5rem;margin-bottom:1rem;">&#128196;</div>
+    <h2 style="font-size:1.5rem;font-weight:900;color:var(--w);margin-bottom:.5rem;letter-spacing:-.03em;">Documents</h2>
+    <p style="font-size:.9rem;color:var(--w40);line-height:1.6;margin-bottom:1.5rem;">Case studies, technical write-ups, and curated docs coming soon.</p>
+    <a class="btn-g" href="/home">&#8592; Back Home</a>
+  </div>
 </div>
-{% endblock content %}
+{% endblock %}

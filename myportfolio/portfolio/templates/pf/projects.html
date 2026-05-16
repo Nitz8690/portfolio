@@ -155,7 +155,9 @@ body{font-family:var(--fd);color:var(--w);}
   <div class="ph-sub">// things I've built across ML, DevOps &amp; Data Engineering</div>
  </div>
 
- {% if allProjs %}
+ {% if request.user.is_authenticated %}
+
+  {% if allProjs %}
   {% for projects, range, nSlides in allProjs %}
   <div class="cat-section">
    <div class="cat-label">Category</div>
@@ -225,12 +227,26 @@ body{font-family:var(--fd);color:var(--w);}
   </div>
   {% endfor %}
 
+  {% else %}
+   <!-- Empty state when no projects in DB yet -->
+   <div class="empty-state">
+    <div class="es-icon">🚀</div>
+    <p>Projects coming soon. Add them via the admin panel.</p>
+   </div>
+  {% endif %}
+
  {% else %}
-  <!-- Empty state when no projects in DB yet -->
-  <div class="empty-state">
-   <div class="es-icon">🚀</div>
-   <p>Projects coming soon. Add them via the admin panel.</p>
+  <!-- Login prompt for unauthenticated users -->
+  <div class="empty-state" style="padding:4rem 2rem;">
+   <div class="es-icon" style="font-size:3.5rem;margin-bottom:1.2rem;">🔐</div>
+   <h2 style="font-size:1.5rem;font-weight:800;color:#fff;margin-bottom:.5rem;letter-spacing:-.02em;">Sign in to View Projects</h2>
+   <p style="color:rgba(255,255,255,.7);font-size:.95rem;margin-bottom:1.8rem;max-width:400px;margin-left:auto;margin-right:auto;">Please log in or create an account to browse the project portfolio.</p>
+   <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+    <button class="btn" data-target="#loginModal" data-toggle="modal" type="button" style="background:#F5C842;color:#111;font-weight:800;font-size:.9rem;padding:.65rem 1.8rem;border-radius:10px;border:none;cursor:pointer;transition:all .25s;" onmouseover="this.style.opacity='.85'" onmouseout="this.style.opacity='1'">Log In</button>
+    <button class="btn" data-target="#signupModal" data-toggle="modal" type="button" style="background:transparent;border:2px solid rgba(245,200,66,.3);color:#F5C842;font-weight:700;font-size:.9rem;padding:.65rem 1.8rem;border-radius:10px;cursor:pointer;transition:all .25s;" onmouseover="this.style.borderColor='#F5C842'" onmouseout="this.style.borderColor='rgba(245,200,66,.3)'">Sign Up</button>
+   </div>
   </div>
+
  {% endif %}
 
 </div>

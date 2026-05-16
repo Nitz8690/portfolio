@@ -58,7 +58,7 @@ body{
 .banner-text hr {
   border-top: 5px dotted white;
   width: 50%;
-  margin-top: 30px
+  margin-top: 30px;
   margin: auto;
 }
 
@@ -125,7 +125,7 @@ body{
 .contact-grid hr {
   border-top: 5px dotted black;
   width: 50%;
-  margin-top: 30px
+  margin-top: 30px;
   margin: auto;
 }
 

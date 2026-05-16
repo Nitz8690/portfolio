@@ -35,13 +35,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'rest_framework_mongoengine',
-    # 'django_mongoengine',
-    # 'django_mongoengine.mongo_auth',
-    # 'django_mongoengine.mongo_admin',
     'portfolio',
-    # 'covid'
 ]
 
 MIDDLEWARE = [
@@ -74,19 +68,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'myportfolio.wsgi.application'
 
-# MONGOADMIN_OVERRIDE_ADMIN = True
-#
-# MONGODB_DATABASES = {
-#     'default': {'name': 'pf'}
-# }
-#
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'djongo',
-#         'NAME': 'pf',
-#     }
-# }
-# #
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
@@ -134,10 +115,6 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, "static")
-STATICFILES_DIRS = (
-    # os.path.join(BASE_DIR, "portfolio", "static"),
-    # os.path.join(BASE_DIR, "covid", "static"),
-)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'

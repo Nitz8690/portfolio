@@ -1,152 +1,252 @@
 {% extends 'pf/base.html' %}
-
 {% load static %}
-{% block title%}PROJECTS{% endblock title%}
+{% block title %}PROJECTS{% endblock title %}
 {% block projectsactive %} active {% endblock projectsactive %}
+
 {% block content %}
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Cabinet+Grotesk:wght@500;700;800;900&display=swap" rel="stylesheet">
 <style>
-          .col-md-3
-          {
-            display: inline-block;
-            margin-left: 25px;
-            height: 365px;
-            width: 270px;
-          }
+:root{
+  --gold:#F5C842;--mint:#00E5A0;--w:#fff;
+  --w90:rgba(255,255,255,.90);--w70:rgba(255,255,255,.70);--w40:rgba(255,255,255,.40);
+  --w08:rgba(255,255,255,.08);--w15:rgba(255,255,255,.15);
+  --gb:rgba(255,255,255,.16);--fd:'Cabinet Grotesk',sans-serif;--fm:'JetBrains Mono',monospace;
+}
+*{box-sizing:border-box;}
+body{font-family:var(--fd);color:var(--w);}
 
-          .carousel-indicators .active {
-          background-color: blue;
-            }
+@keyframes fadeUp{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+@keyframes shimmer{0%{background-position:200% center}100%{background-position:-200% center}}
 
-          .col-md-3 img{
-            width: 260px;
-            max-height: 155px;
-            margin: auto;
-             margin-left: 13px;
-             margin-right: 13px;
-            margin-top: 4%;
-            word-break: break-all;
-            word-break: break-all;
-<!--            width: %;-->
-<!--            height: 50%;-->
-<!--            margin: auto;-->
-<!--            margin-top: 11%;-->
-          }
+.pg{padding:2rem 2rem 3rem;max-width:1500px;margin:0 auto;}
 
-          body .carousel-indicator li{
-          background-color: blue;
-          }
+/* PAGE HEADER */
+.ph{margin-bottom:2rem;}
+.ph-title{font-size:2rem;font-weight:900;color:var(--w);letter-spacing:-.03em;margin-bottom:.3rem;}
+.ph-title span{color:var(--gold);}
+.ph-sub{font-family:var(--fm);font-size:.75rem;color:var(--mint);letter-spacing:.06em;}
 
-          body .carousel-indicators{
-          bottom: 0;
-          }
+/* CATEGORY SECTION */
+.cat-section{margin-bottom:3rem;opacity:0;animation:fadeUp .6s ease forwards;}
+.cat-section:nth-child(1){animation-delay:.05s;}
+.cat-section:nth-child(2){animation-delay:.15s;}
+.cat-section:nth-child(3){animation-delay:.25s;}
+.cat-section:nth-child(4){animation-delay:.35s;}
 
-          body .carousel-control-prev-icon,
-          body .carousel-control-next-icon{
-          background-color: blue;
-          }
+.cat-label{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--fm);font-size:.7rem;font-weight:700;
+  color:var(--mint);text-transform:uppercase;letter-spacing:.1em;
+  margin-bottom:1.1rem;
+}
+.cat-label::before{content:'';width:3px;height:16px;background:var(--gold);border-radius:2px;}
+.cat-title{font-size:1.3rem;font-weight:800;color:var(--w);letter-spacing:-.02em;margin-bottom:1.2rem;}
 
-          .carousel-control-prev,
-          .carousel-control-next{
-          top: auto;
-          bottom: auto;
-          padding-top: 155px;
-          }
-           body .no-padding{
-           padding-left: 0,
-           padding-right: 0;
-           }
+/* CAROUSEL WRAPPER */
+.carousel-wrap{position:relative;}
 
+/* Bootstrap carousel overrides */
+.carousel-control-prev,
+.carousel-control-next{
+  width:42px;height:42px;
+  top:50%;transform:translateY(-50%);
+  background:rgba(0,0,0,.5);
+  border:1px solid var(--gb);
+  border-radius:10px;
+  backdrop-filter:blur(10px);
+  opacity:1;
+  transition:all .25s;
+}
+.carousel-control-prev{left:-20px;}
+.carousel-control-next{right:-20px;}
+.carousel-control-prev:hover,
+.carousel-control-next:hover{background:var(--gold);}
+.carousel-control-prev-icon,
+.carousel-control-next-icon{
+  width:14px;height:14px;
+  filter:brightness(10);
+}
+.carousel-indicators{position:relative;margin-top:1rem;margin-bottom:0;}
+.carousel-indicators button{
+  width:8px;height:8px;border-radius:50%;
+  background:var(--gb);border:none;opacity:1;
+  transition:all .2s;
+}
+.carousel-indicators button.active{background:var(--gold);transform:scale(1.3);}
 
+/* PROJECT CARD GRID */
+.proj-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:1.1rem;
+  padding:0 1.5rem;
+}
+@media(max-width:900px){.proj-row{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:560px){.proj-row{grid-template-columns:1fr;}}
 
+/* PROJECT CARD */
+.proj-card{
+  background:var(--w08);
+  border:1px solid var(--gb);
+  backdrop-filter:blur(16px);
+  border-radius:14px;
+  overflow:hidden;
+  transition:transform .28s,box-shadow .28s;
+  display:flex;flex-direction:column;
+}
+.proj-card:hover{transform:translateY(-4px);box-shadow:0 14px 40px rgba(0,0,0,.3);}
+.proj-card::before{
+  content:'';display:block;height:3px;
+  background:linear-gradient(90deg,var(--mint),var(--gold));
+  background-size:200% auto;
+  animation:shimmer 3s linear infinite;
+}
+.proj-img-wrap{height:140px;overflow:hidden;background:rgba(0,0,0,.2);}
+.proj-img-wrap img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .4s;
+}
+.proj-card:hover .proj-img-wrap img{transform:scale(1.06);}
+.proj-img-placeholder{
+  height:140px;display:flex;align-items:center;justify-content:center;
+  background:rgba(0,0,0,.2);font-size:2.5rem;
+}
+.proj-body{padding:1rem 1.1rem;flex:1;display:flex;flex-direction:column;}
+.proj-name{font-size:.94rem;font-weight:800;color:var(--w);margin-bottom:.35rem;line-height:1.3;}
+.proj-desc{font-size:.81rem;color:var(--w70);line-height:1.52;flex:1;margin-bottom:.75rem;}
+.proj-btns{display:flex;gap:8px;flex-wrap:wrap;}
+.btn-code{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--gold);color:#111;
+  border-radius:7px;padding:5px 12px;
+  font-size:.75rem;font-weight:800;text-decoration:none;
+  transition:all .22s;border:2px solid var(--gold);
+}
+.btn-code:hover{background:transparent;color:var(--gold);}
+.btn-demo{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--w08);color:var(--w);
+  border-radius:7px;padding:5px 12px;
+  font-size:.75rem;font-weight:700;text-decoration:none;
+  transition:all .22s;border:2px solid var(--gb);
+}
+.btn-demo:hover{background:var(--w15);border-color:var(--mint);color:var(--mint);}
 
+/* EMPTY STATE */
+.empty-state{
+  text-align:center;padding:3rem 1rem;
+  background:var(--w08);border:1px solid var(--gb);
+  border-radius:16px;
+}
+.empty-state .es-icon{font-size:3rem;margin-bottom:.8rem;}
+.empty-state p{color:var(--w70);font-size:.9rem;}
+
+@media(max-width:560px){
+  .carousel-control-prev{left:-8px;}
+  .carousel-control-next{right:-8px;}
+  .proj-row{padding:0 .5rem;}
+}
 </style>
-<div class="container">
 
-    <!--Slideshow starts here -->
-    {% for projects, range, nSlides in allProjs %}
-    <h3 class="my-4"><strong>{{projects.0.category}}</strong></h3>
-    <div class="row">
-        <div class="col carousel slide my-3" data-ride="carousel" id="demo{{forloop.counter}}">
-            <ul class="carousel-indicators">
-                <li class="active" data-slide-to="0" data-target="#demo{{forloop.counter}}"></li>
+<div class="pg">
 
-                {% for i in range %}
-                <li data-slide-to="{{i}}" data-target="#demo{{forloop.parentloop.counter}}"></li>
-                {% endfor %}
-            </ul>
+ <div class="ph">
+  <h1 class="ph-title">My <span>Projects</span></h1>
+  <div class="ph-sub">// things I've built across ML, DevOps &amp; Data Engineering</div>
+ </div>
 
+ {% if allProjs %}
+  {% for projects, range, nSlides in allProjs %}
+  <div class="cat-section">
+   <div class="cat-label">Category</div>
+   <div class="cat-title">{{ projects.0.category }}</div>
 
-            <div class="container carousel-inner no-padding">
+   <div class="carousel-wrap">
+    <div class="carousel slide" data-ride="carousel" id="carousel{{ forloop.counter }}">
 
-                <div class="carousel-item active">
+     <!-- Slides -->
+     <div class="carousel-inner">
+      <div class="carousel-item active">
+       <div class="proj-row">
+        {% for proj in projects %}
+         <div class="proj-card">
+          {% if proj.proj_image %}
+           <div class="proj-img-wrap">
+             <img src="{{ proj.proj_image.url }}" alt="{{ proj.proj_name }}">
+           </div>
+          {% else %}
+           <div class="proj-img-placeholder">🚀</div>
+          {% endif %}
+          <div class="proj-body">
+           <div class="proj-name">{{ proj.proj_name }}</div>
+           <div class="proj-desc">{{ proj.proj_desc|slice:"0:120" }}{% if proj.proj_desc|length > 120 %}…{% endif %}</div>
+           <div class="proj-btns">
+            {% if proj.proj_link1 %}
+             <a class="btn-code" href="{{ proj.proj_link1 }}" target="_blank">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+              Code
+             </a>
+            {% endif %}
+            {% if proj.proj_link2 %}
+             <a class="btn-demo" href="{{ proj.proj_link2 }}" target="_blank">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M19 19H5V5h7V3H5a2 2 0 00-2 2v14a2 2 0 002 2h14a2 2 0 002-2v-7h-2v7zM14 3v2h3.59l-9.83 9.83 1.41 1.41L19 6.41V10h2V3h-7z"/></svg>
+              Demo
+             </a>
+            {% endif %}
+           </div>
+          </div>
+         </div>
+         {% if forloop.counter|divisibleby:3 and not forloop.last %}
+          </div></div><div class="carousel-item"><div class="proj-row">
+         {% endif %}
+        {% endfor %}
+       </div>
+      </div>
+     </div>
 
+     <!-- Controls (only show if multiple slides) -->
+     {% if nSlides > 0 %}
+      <a class="carousel-control-prev" href="#carousel{{ forloop.counter }}" data-slide="prev">
+       <span class="carousel-control-prev-icon"></span>
+      </a>
+      <a class="carousel-control-next" href="#carousel{{ forloop.counter }}" data-slide="next">
+       <span class="carousel-control-next-icon"></span>
+      </a>
+      <ol class="carousel-indicators">
+       <li data-target="#carousel{{ forloop.counter }}" data-slide-to="0" class="active"></li>
+       {% for i in range %}
+        <li data-target="#carousel{{ forloop.counter }}" data-slide-to="{{ i }}"></li>
+       {% endfor %}
+      </ol>
+     {% endif %}
 
-                    {% for i in projects %}
-                    <div class="col-xs-3 col-sm-3 col-md-3">
-                        <div class="card" style="width: 18rem;">
-                            <img alt="..." class="card-img-top" src='/media/{{i.proj_image}}'>
-                            <div class="card-body">
-                                <h5 class="card-title">{{i.proj_name|slice:"0:20"}} ...</h5>
-                                <p class="card-text">{{i.proj_desc|slice:"0:60"}} ...</p><br>
-                                <a class="btn btn-primary cart" href="{{i.proj_link1}}" id="pr{{i.id}}"
-                                   style="margin-left:5px;">Code Link</a>
-                                <a class="btn btn-primary cart" href="{{i.proj_link2}}" style="margin-left:30px;">Demo
-                                    Link</a>
-                            </div>
-                        </div>
-                    </div>
-                    {% if forloop.counter|divisibleby:3 and forloop.counter > 0 and not forloop.last %}
-                </div>
-                <div class="carousel-item">
-                    {% endif %}
-
-                    {% endfor %}
-                </div>
-
-
-            </div>
-        </div>
-        <!-- left and right controls for the slide -->
-        <a class="carousel-control-prev" data-slide="prev" href="#demo{{forloop.counter}}">
-            <span class="carousel-control-prev-icon"></span>
-        </a>
-        <a class="carousel-control-next" data-slide="next" href="#demo{{forloop.counter}}">
-            <span class="carousel-control-next-icon"></span>
-        </a>
     </div>
-    {% endfor %}
+   </div>
+  </div>
+  {% endfor %}
+
+ {% else %}
+  <!-- Empty state when no projects in DB yet -->
+  <div class="empty-state">
+   <div class="es-icon">🚀</div>
+   <p>Projects coming soon. Add them via the admin panel.</p>
+  </div>
+ {% endif %}
+
 </div>
-{% endblock content %}
 
-{% block  js %}
+{% block js %}
 <script>
-console.log('working')
-
-if(localStorage.getItem('clk') == null){
-var clk={};
-}
-else{
-clk = JSON.parse(localStorage.getItem('clk'));
-}
-
-$('.clk').click(function(){
-console.log('maja hi aa gaya');
-var idstr = this.id.toString();
-console.log(idstr);
-
-if(clk[idstr]  != undefined){
-clk[idstr] = clk[idstr] + 1;
-}
-else{
-clk[idstr] = 1;
-}
-console.log(clk);
-localStorage.setItem('clk', JSON.stringify(clk));
+// Track project link clicks in localStorage
+var clk = JSON.parse(localStorage.getItem('clk') || '{}');
+document.querySelectorAll('.btn-code, .btn-demo').forEach(function(el){
+  el.addEventListener('click', function(){
+    var id = this.id || this.href;
+    clk[id] = (clk[id] || 0) + 1;
+    localStorage.setItem('clk', JSON.stringify(clk));
+  });
 });
-
-
-
 </script>
 {% endblock js %}
 
-
+{% endblock content %}

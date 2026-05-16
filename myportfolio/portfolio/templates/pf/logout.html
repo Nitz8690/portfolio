@@ -1,6 +1,12 @@
 {% extends 'pf/base.html' %}
-
 {% load static %}
-{% block title%}LOGOUT{% endblock title%}
+{% block title %}Logged Out{% endblock title %}
 {% block content %}
+<div style="display:flex;align-items:center;justify-content:center;min-height:60vh;text-align:center;">
+    <div>
+        <h2 style="color:#fff;font-size:2rem;margin-bottom:1rem;">You have been logged out</h2>
+        <p style="color:rgba(255,255,255,.7);font-size:1.1rem;margin-bottom:1.5rem;">Thank you for visiting!</p>
+        <a href="/home" style="display:inline-block;padding:.7rem 1.8rem;background:#F5C842;color:#111;border-radius:8px;text-decoration:none;font-weight:700;">Back to Home</a>
+    </div>
+</div>
 {% endblock content %}

@@ -27,6 +27,7 @@ htmlcov/
 db.sqlite3
 media/
 /staticfiles/
+myportfolio/static/
 
 # PyCharm
 .idea/
